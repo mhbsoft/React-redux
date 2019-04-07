@@ -2,6 +2,18 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {addGun, remGun, addGunAsync} from './index.redux'
 
+//将 state 中 你想要的 属性 放到 props 的state中
+const mapStatetoProps = (state)=>{
+    return {num: state}
+}
+//将 state 中 你想要的方法放到 props 中， 自动 store.dispatch()
+const actionCreators = {addGun, remGun, addGunAsync};
+
+//未安装 状态管理装配器的时候这么用
+// App = connect(mapStatetoProps, actionCreators)(App);
+
+//安装babel-plugin-transform-decorators-legacy 状态管理装配器的时候可以这么用
+@connect(mapStatetoProps, actionCreators)
 class App extends React.Component{
     render(){
         const num = this.props.num;
@@ -17,13 +29,5 @@ class App extends React.Component{
         </div>
     }
 }
-
-const mapStatetoProps = (state)=>{
-    return {num: state}
-}
-
-const actionCreators = {addGun, remGun, addGunAsync};
-
-App = connect(mapStatetoProps, actionCreators)(App);
 
 export default App;
